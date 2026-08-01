@@ -1,0 +1,14 @@
+# 貼り付け画像の生データ（加工済み素材のみを管理する）
+in_*.jpeg
+in_*.png
+new_*.jpeg
+new_*.png
+c_*.jpeg
+c_*.png
+d_*.jpeg
+d_*.png
+e_*.jpeg
+e_*.png
+src_*.jpeg
+src_*.png
+orn_check.png
