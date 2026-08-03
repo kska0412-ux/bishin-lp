@@ -90,8 +90,8 @@ ul,ol{list-style:none}
 .eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.75}
 
 .h2{
-  font-family:var(--f-min);font-weight:600;
-  font-size:clamp(25px,4.1vw,50px);line-height:1.5;letter-spacing:.03em;
+  font-family:var(--f-min);font-weight:300;
+  font-size:clamp(23px,4.1vw,50px);line-height:1.62;letter-spacing:.12em;
 }
 .h2 em{font-style:normal;color:var(--signal-tx)}
 .sec--dark .h2 em{color:var(--signal-lit)}
@@ -211,24 +211,25 @@ ul,ol{list-style:none}
 .brand-word{display:block;flex:none;width:96px;height:15px;
   background:var(--word-ink) left center/contain no-repeat}
 .hd.stuck .brand-mark{width:29px;height:29px}
-.hd-logo span{font-family:var(--f-go);font-size:10.5px;letter-spacing:.24em;color:var(--ink-45);
-  padding-left:12px;border-left:1px solid var(--ink-14);line-height:1}
-@media (max-width:700px){.hd-logo span{display:none}}
-@media (max-width:420px){.brand-word{width:78px}}
+.hd-logo .name{font-family:var(--f-go);font-size:10.5px;letter-spacing:.24em;color:var(--ink-45);
+  padding-left:12px;border-left:1px solid var(--ink-14);line-height:1;white-space:nowrap}
+@media (max-width:560px){
+  .hd-logo{gap:9px}
+  .brand-mark{width:29px;height:29px}
+  .brand-word{width:76px;height:12px}
+  .hd-logo .name{font-size:9px;letter-spacing:.14em;padding-left:9px}
+}
 .hd-cta{
   font-family:var(--f-min);font-size:12.5px;font-weight:600;letter-spacing:.12em;border:0;border-radius:3px;
   padding:13px 24px;position:relative;overflow:hidden;color:#16110C;
-  background:linear-gradient(135deg,#C2913F 0%,#E2C07C 48%,#B98B3D 100%);
-  box-shadow:0 8px 16px -10px rgba(118,82,24,.7);
+  background:linear-gradient(103deg,#BE9647 0%,#D6B871 38%,#E6D3A2 56%,#CDA95C 78%,#B88F41 100%);
+  box-shadow:0 8px 16px -10px rgba(88,60,18,.55),inset 0 0 0 1px rgba(255,250,235,.35);
   transition:transform .3s ease,box-shadow .3s ease;
 }
 .hd-cta i{position:relative;z-index:2;font-style:normal}
-.hd-cta::before{content:"";position:absolute;inset:0;
-  background:linear-gradient(100deg,#A97B2B,#E9CB92 55%,#AE8130);
-  transform:translateY(101%);transition:transform .45s cubic-bezier(.16,.84,.36,1)}
-.hd-cta:hover{transform:translateY(-2px);box-shadow:0 12px 20px -10px rgba(118,82,24,.75)}
-.hd-cta:active{transform:translateY(1px)}
-.hd-cta:hover::before{transform:translateY(0)}
+.hd-cta:hover{transform:translateY(-2px);filter:brightness(1.04);
+  box-shadow:0 12px 20px -10px rgba(88,60,18,.6),inset 0 0 0 1px rgba(255,252,242,.5)}
+.hd-cta:active{transform:translateY(1px);filter:brightness(.97)}
 @media (max-width:520px){.hd-cta{display:none}}
 
 /* ============================================================
@@ -250,15 +251,31 @@ ul,ol{list-style:none}
 /* 立ち上がりの順序：見出し → CTAボタン → 写真 */
 .js-on .fv-textcol .cta[data-rv]{transition-delay:.85s}
 .js-on .fv-photo[data-rv]{transition-delay:1.3s}
+/* スマホ：見出し → 写真 → CTA の順に積み、その順に立ち上げる */
 @media (max-width:900px){
-  .fv{grid-template-columns:1fr;min-height:0}
-  .fv-textcol{padding:clamp(104px,16vw,124px) var(--pad) clamp(34px,6vw,48px)}
-  .fv-photo{height:min(62vw,420px)}
+  .fv{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+  .fv-textcol,.fv-inner{display:contents}
+  .fv-h1{order:1;padding:clamp(96px,16vw,124px) var(--pad) 0}
+  /* 写真は元画像と同じ比率にしてトリミングを起こさない（PCと同じ範囲が見える） */
+  .fv-photo{order:2;flex:none;aspect-ratio:1200/1539;height:auto;
+    margin-top:clamp(22px,5vw,34px);background-position:center}
+  .fv-photo::before{display:none}
+  /* 上端だけ紙に溶かす（モヤは廃止） */
+  .fv-photo::after{background:linear-gradient(180deg,var(--paper) 0%,
+    rgba(242,237,229,.6) 4%,rgba(242,237,229,0) 13%)}
+  .fv .cta{order:3;align-self:stretch;width:auto;max-width:none;
+    margin:clamp(22px,5vw,32px) var(--pad) clamp(32px,7vw,46px)}
+  /* 出す順番：文字 → 写真 → ボタン */
+  .js-on .fv-h1[data-rv]{transition-delay:0s}
+  .fv-h1 .ln:nth-child(1)>i{transition-delay:0s}
+  .fv-h1 .ln:nth-child(2)>i{transition-delay:.13s}
+  .js-on .fv-photo[data-rv]{transition-delay:.9s}
+  .js-on .fv-textcol .cta[data-rv]{transition-delay:1.5s}
 }
 
-.fv-h1{font-family:var(--f-min);font-weight:600;letter-spacing:.035em;
-  font-size:clamp(28px,4.2vw,58px);line-height:1.4}
-.fv-h1 .sm{display:block;font-size:clamp(17px,2.5vw,31px);line-height:1.62;margin-top:.6em;color:var(--ink-70)}
+.fv-h1{font-family:var(--f-min);font-weight:300;letter-spacing:.12em;
+  font-size:clamp(26px,4vw,54px);line-height:1.52}
+.fv-h1 .sm{display:block;font-size:clamp(16px,2.3vw,29px);line-height:1.72;margin-top:.7em;color:var(--ink-70);letter-spacing:.1em}
 .fv-h1 .sm em{font-style:normal;color:var(--ink);
   background:linear-gradient(transparent 62%,rgba(176,141,87,.22) 62%)}
 
@@ -273,8 +290,8 @@ ul,ol{list-style:none}
 .pillars::before{top:5px}
 .pillars::after{bottom:5px}
 /* 実績カード（1枚ずつ順に立ち上がる） */
-.stat-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(14px,2.4vw,36px);max-width:1000px;margin-inline:auto}
+.stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));
+  gap:clamp(14px,2.4vw,36px);max-width:1020px;margin-inline:auto}
 .stat-cards img{display:block;width:100%;height:auto;
   box-shadow:0 20px 40px -30px rgba(70,50,24,.6);
   transition:transform .6s cubic-bezier(.16,.84,.36,1),box-shadow .6s ease}
@@ -284,7 +301,7 @@ ul,ol{list-style:none}
 .js-on .stat-cards li:nth-child(2)[data-rv]{transition-delay:.42s}
 .js-on .stat-cards li:nth-child(3)[data-rv]{transition-delay:.84s}
 .js-on .stat-cards li[data-rv].in{transform:none}
-@media (max-width:640px){.stat-cards{grid-template-columns:1fr;max-width:360px;gap:20px}}
+@media (max-width:640px){.stat-cards{grid-template-columns:1fr;max-width:420px;gap:20px}}
 
 .fv-scroll{position:absolute;left:max(var(--pad),calc((100vw - 1160px)/2));bottom:clamp(20px,3.4vw,40px);display:flex;align-items:center;gap:12px;
   font-family:var(--f-mono);font-size:9.5px;letter-spacing:.28em;color:var(--ink-45);z-index:3}
@@ -295,40 +312,34 @@ ul,ol{list-style:none}
 @media (max-width:900px){.fv-scroll{display:none}}
 
 /* ---------- CTA ---------- */
-/* ---------- CTAボタン：金の面で押せることを最優先に ---------- */
+/* ---------- CTAボタン：磨いた金の板（走る光沢はやめ、面と縁で見せる） ---------- */
 .cta{
   display:flex;align-items:center;justify-content:center;gap:clamp(12px,1.6vw,20px);
-  position:relative;overflow:hidden;width:100%;max-width:470px;border-radius:3px;
-  padding:clamp(20px,2.5vw,27px) clamp(18px,2.4vw,30px);margin-top:2.6em;
-  background:linear-gradient(135deg,#C2913F 0%,#E2C07C 48%,#B98B3D 100%);
+  position:relative;overflow:hidden;width:100%;max-width:470px;border-radius:6px;
+  padding:clamp(21px,2.6vw,28px) clamp(18px,2.4vw,30px);margin-top:2.6em;
+  background:linear-gradient(103deg,#BE9647 0%,#D6B871 38%,#E6D3A2 56%,#CDA95C 78%,#B88F41 100%);
   color:#16110C;
-  box-shadow:0 16px 28px -14px rgba(118,82,24,.55),inset 0 1px 0 rgba(255,255,255,.38);
+  box-shadow:0 14px 26px -14px rgba(88,60,18,.5),0 2px 4px rgba(88,60,18,.16),
+             inset 0 0 0 1px rgba(255,250,235,.4);
   transition:transform .35s cubic-bezier(.16,.84,.36,1),box-shadow .35s ease,filter .35s ease;
 }
 .close-in .cta{margin-inline:auto}
-/* 濃い金へ流れるホバー面 */
-.cta::before{content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(100deg,#A97B2B 0%,#E9CB92 55%,#AE8130 100%);
-  transform:translateX(-101%);transition:transform .55s cubic-bezier(.16,.84,.36,1)}
-.cta:hover::before{transform:translateX(0)}
-/* 金属の光沢が横切る */
-.cta .shine{position:absolute;top:-20%;bottom:-20%;left:-45%;width:26%;z-index:1;pointer-events:none;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
-  transform:skewX(-18deg);animation:sheen 5.4s cubic-bezier(.5,0,.3,1) 1.6s infinite}
-@keyframes sheen{0%{left:-45%}22%,100%{left:125%}}
-.cta:hover{transform:translateY(-3px);box-shadow:0 24px 38px -14px rgba(118,82,24,.62),inset 0 1px 0 rgba(255,255,255,.45)}
-.cta:active{transform:translateY(1px);box-shadow:0 6px 12px -8px rgba(118,82,24,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.cta:hover{transform:translateY(-2px);filter:brightness(1.04);
+  box-shadow:0 20px 34px -14px rgba(88,60,18,.55),0 3px 6px rgba(88,60,18,.2),
+             inset 0 0 0 1px rgba(255,252,242,.55)}
+.cta:active{transform:translateY(1px);filter:brightness(.97);
+  box-shadow:0 5px 10px -6px rgba(88,60,18,.5),inset 0 0 0 1px rgba(255,250,235,.35)}
 .cta-tx{position:relative;z-index:2;text-align:center}
-.cta-tx b{display:block;font-family:var(--f-min);font-weight:600;
-  font-size:clamp(17px,2.35vw,26px);letter-spacing:.06em;line-height:1.45}
-.cta-ar{position:relative;z-index:2;flex:none;width:clamp(22px,2.4vw,32px);height:2px;
-  background:currentColor;opacity:.9;border-radius:2px}
-.cta-ar::after{content:"";position:absolute;right:0;top:-4px;width:9px;height:9px;
-  border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);border-radius:1px}
+.cta-tx b{display:block;font-family:var(--f-min);font-weight:400;
+  font-size:clamp(17px,2.35vw,26px);letter-spacing:.12em;line-height:1.5}
+.cta-ar{position:relative;z-index:2;flex:none;width:clamp(24px,2.6vw,34px);height:1.5px;
+  background:currentColor;opacity:.85}
+.cta-ar::after{content:"";position:absolute;right:0;top:-3.5px;width:8px;height:8px;
+  border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
 .cta:hover .cta-ar{animation:ar .7s ease}
 @keyframes ar{50%{transform:translateX(8px);opacity:.2}51%{transform:translateX(-8px)}100%{transform:translateX(0)}}
-.sec--dark .cta{box-shadow:0 16px 30px -14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.4)}
-.sec--dark .cta:hover{box-shadow:0 24px 40px -14px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.45)}
+.sec--dark .cta{box-shadow:0 16px 30px -14px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,250,235,.42)}
+.sec--dark .cta:hover{box-shadow:0 22px 38px -14px rgba(0,0,0,.75),inset 0 0 0 1px rgba(255,252,242,.55)}
 
 /* ============================================================
    ② 問題提起
@@ -420,14 +431,14 @@ tbody tr:last-child td.bishin{border-bottom:0}
 @media (max-width:900px){.prof-side{position:static}}
 .prof-fig{aspect-ratio:4/5}
 .prof-name{margin-top:24px}
-.prof-name span{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;color:var(--signal-tx)}
+.prof-name .en{font-family:var(--f-mono);font-size:10px;letter-spacing:.24em;color:var(--signal-tx)}
 .prof-name b{display:block;font-family:var(--f-min);font-size:clamp(21px,2.5vw,28px);
   font-weight:600;letter-spacing:.09em;margin-top:.6em}
 .prof-name i{display:block;font-style:normal;font-size:12px;color:var(--ink-45);margin-top:.9em;line-height:1.9}
 .salons{margin-top:26px;border-top:1px solid var(--ink-14)}
 .salons li{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--ink-14);
   font-size:12.5px;letter-spacing:.05em}
-.salons li span{font-family:var(--f-mono);font-size:9.5px;color:var(--signal-tx);letter-spacing:.1em}
+.salons li .no{font-family:var(--f-mono);font-size:9.5px;color:var(--signal-tx);letter-spacing:.1em}
 
 .story p{font-family:var(--f-min);font-size:clamp(14.5px,1.5vw,17.5px);line-height:2.4;letter-spacing:.05em}
 .story p+p{margin-top:1.8em}
@@ -502,7 +513,7 @@ tbody tr:last-child td.bishin{border-bottom:0}
   display:flex;align-items:flex-start;gap:clamp(12px,1.8vw,24px);padding:clamp(20px,2.3vw,28px) 40px clamp(20px,2.3vw,28px) 0;
   position:relative;letter-spacing:.05em;transition:opacity .4s}
 .qa-q:hover{opacity:.62}
-.qa-q span{font-family:var(--f-mono);font-size:11px;color:var(--signal-tx);flex:none;padding-top:.45em;letter-spacing:.1em}
+.qa-q .qn{font-family:var(--f-mono);font-size:11px;color:var(--signal-tx);flex:none;padding-top:.45em;letter-spacing:.1em}
 .qa-q b{font-family:var(--f-min);font-size:clamp(15px,1.6vw,18px);font-weight:600;line-height:1.75}
 .qa-q::before,.qa-q::after{content:"";position:absolute;right:6px;top:50%;background:var(--ink);
   transition:transform .45s cubic-bezier(.16,.84,.36,1)}
@@ -529,8 +540,9 @@ tbody tr:last-child td.bishin{border-bottom:0}
   color:rgba(242,237,229,.86);letter-spacing:.05em}
 .ps p+p{margin-top:1.4em}
 .ps-sign{margin-top:2em;font-family:var(--f-min);font-size:15px;letter-spacing:.14em}
-.ps-sign span{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;
+.ps-sign .org{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;
   color:rgba(242,237,229,.55);margin-bottom:.7em}
+.ps-sign .who{white-space:nowrap}
 
 /* ============================================================
    フッター / 追従CTA
@@ -541,9 +553,9 @@ tbody tr:last-child td.bishin{border-bottom:0}
 .ft-brand{display:flex;align-items:center;gap:14px}
 .ft-mark{display:block;flex:none;width:42px;height:42px;background:var(--mark-gold) center/contain no-repeat}
 .ft-word{display:block;flex:none;width:104px;height:16px;background:var(--word-gold) left center/contain no-repeat}
-.ft span{display:block;font-family:var(--f-go);font-size:10px;letter-spacing:.24em;
-  padding-left:14px;border-left:1px solid rgba(242,237,229,.2);line-height:1}
-@media (max-width:520px){.ft span{display:none}}
+.ft .name{display:block;font-family:var(--f-go);font-size:10px;letter-spacing:.24em;
+  padding-left:14px;border-left:1px solid rgba(242,237,229,.2);line-height:1;white-space:nowrap}
+@media (max-width:520px){.ft .name{display:none}}
 .ft small{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em}
 
 .bar{
@@ -552,13 +564,14 @@ tbody tr:last-child td.bishin{border-bottom:0}
   transform:translateY(110%);transition:transform .6s cubic-bezier(.16,.84,.36,1);
 }
 .bar.on{transform:translateY(0)}
-.bar a{display:flex;align-items:center;justify-content:center;gap:12px;border-radius:3px;
-  background:linear-gradient(135deg,#C2913F 0%,#E2C07C 48%,#B98B3D 100%);
-  color:#16110C;padding:16px;font-family:var(--f-min);font-weight:600;font-size:16.5px;letter-spacing:.06em;
-  box-shadow:0 8px 18px -10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.35)}
-.bar a:active{transform:translateY(1px)}
-.bar a span{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;opacity:.7;
-  border:1px solid rgba(22,17,12,.35);border-radius:2px;padding:2px 6px}
+.bar a{display:flex;align-items:center;justify-content:center;gap:14px;border-radius:6px;
+  background:linear-gradient(103deg,#BE9647 0%,#D6B871 38%,#E6D3A2 56%,#CDA95C 78%,#B88F41 100%);
+  color:#16110C;padding:17px;font-family:var(--f-min);font-weight:400;font-size:17px;letter-spacing:.1em;
+  box-shadow:0 10px 22px -12px rgba(0,0,0,.75),inset 0 0 0 1px rgba(255,250,235,.38);
+  transition:filter .3s ease,transform .2s ease}
+.bar a:active{transform:translateY(1px);filter:brightness(.96)}
+.bar a .tx{font:inherit;letter-spacing:inherit}
+.bar a .cta-ar{width:26px}
 @media (min-width:768px){.bar{display:none}}
 @media (max-width:767px){.ft{padding-bottom:calc(clamp(40px,5vw,64px) + 82px)}}
 
@@ -575,7 +588,6 @@ tbody tr:last-child td.bishin{border-bottom:0}
   .fv-scroll span::after{animation:none;transform:none;width:100%;opacity:.5}
   .cta:hover{transform:none}
   .cta:hover .cta-ar{animation:none}
-  .cta .shine{animation:none;opacity:0}
   .js-on .stat-shots li[data-rv]{transform:none;filter:none;transition:opacity .8s ease}
   .js-on .stat-cards li[data-rv]{transform:none;transition:opacity .7s ease}
   .stat-cards li:hover img{transform:none}
@@ -584,6 +596,30 @@ tbody tr:last-child td.bishin{border-bottom:0}
   .loader-mark,.loader-word{transform:none;animation:lmkFade .8s ease forwards}
   @keyframes lmkFade{to{opacity:1}}
 }
+
+/* ============================================================
+   明朝の見え方：細く・広く（提示された参考ビジュアルに合わせる）
+   ヒラギノ明朝はW3/W6の2ウェイトなので、300〜500はすべてW3になる
+   ============================================================ */
+.fv-h1,.fv-h1 .sm,.h2,.empathy p,.story p,.story .pull,.story .last,
+.voice-q,.qa-q b,.prof-name b,.reason h3,.point h3,.ps p,.ps-sign,
+.cta-tx b,.bar a,.hd-cta,.video-cap,.stat-cards figcaption{
+  font-weight:300;
+  font-feature-settings:"palt" 0;
+}
+.reason h3,.point h3{letter-spacing:.1em}
+.voice-q,.qa-q b{letter-spacing:.09em}
+.empathy p,.story p{letter-spacing:.085em}
+.story .pull{letter-spacing:.12em}
+.prof-name b{letter-spacing:.16em}
+.ps p{letter-spacing:.08em}
+/* 極小画面では見出しの1行が枠を超えるので字間と級数を詰める */
+@media (max-width:400px){
+  .h2{font-size:21px;letter-spacing:.08em}
+  .fv-h1{letter-spacing:.1em}
+}
+/* ボタンは押しやすさ優先で字間は据え置き（細さだけ合わせる） */
+.cta-tx b,.bar a,.hd-cta{font-weight:400}
 </style>
 
 <!-- ローダー -->
@@ -607,7 +643,7 @@ tbody tr:last-child td.bishin{border-bottom:0}
   <a class="hd-logo" href="#top" aria-label="BISHIN 美顔神経エステスクール">
     <i class="brand-mark" aria-hidden="true"></i>
     <i class="brand-word" aria-hidden="true"></i>
-    <span>美顔神経エステスクール</span>
+    <span class="name">美顔神経エステスクール</span>
   </a>
   <!-- 【差し替え】href に LINE 公式アカウントの友だち追加URLを入れる -->
   <a class="hd-cta" href="#entry"><i>無料個別相談はこちら</i></a>
@@ -627,7 +663,6 @@ tbody tr:last-child td.bishin{border-bottom:0}
         </h1>
         <!-- 【差し替え】href に LINE 友だち追加URL -->
         <a class="cta" href="#entry" data-rv="up">
-          <i class="shine" aria-hidden="true"></i>
           <span class="cta-tx"><b>無料個別相談はこちら</b></span>
           <span class="cta-ar"></span>
         </a>
@@ -644,9 +679,9 @@ tbody tr:last-child td.bishin{border-bottom:0}
 <section class="pillars" aria-label="BISHINの実績">
   <div class="wrap">
     <ul class="stat-cards">
-      <li data-rv="up"><img src="__CARD1__" width="660" height="824" alt="受講生数 30名以上"></li>
-      <li data-rv="up"><img src="__CARD2__" width="660" height="824" alt="受講生満足度 90%以上"></li>
-      <li data-rv="up"><img src="__CARD3__" width="660" height="824" alt="開業後3ヶ月以内に87%が収益化"></li>
+      <li data-rv="up"><img src="__BAND1__" width="900" height="600" alt="受講生数 30名以上"></li>
+      <li data-rv="up"><img src="__BAND2__" width="900" height="600" alt="受講生満足度 90%以上"></li>
+      <li data-rv="up"><img src="__BAND3__" width="900" height="600" alt="開業後3ヶ月以内に87%が収益化"></li>
     </ul>
   </div>
 </section>
@@ -734,7 +769,6 @@ tbody tr:last-child td.bishin{border-bottom:0}
     <div class="mid-cta" data-rv="up">
       <!-- 【差し替え】href に LINE 友だち追加URL -->
       <a class="cta" href="#entry">
-        <i class="shine" aria-hidden="true"></i>
         <span class="cta-tx"><b>無料個別相談はこちら</b></span>
         <span class="cta-ar"></span>
       </a>
@@ -823,7 +857,7 @@ tbody tr:last-child td.bishin{border-bottom:0}
         <figure class="photo prof-fig" data-rv="fade" data-para="0.05"
           role="img" aria-label="美顔神経エステスクールBISHIN 代表 松田葉子"></figure>
         <div class="prof-name" data-rv="up">
-          <span>PRESIDENT</span>
+          <span class="en">PRESIDENT</span>
           <b>松田 葉子</b>
           <i>美顔神経エステスクールBISHIN 代表<br>
             美容業界 約20年。エステティシャン・ネイリストとして、<br>自宅の小さなネイルサロンからスタート。<br>現在、4店舗の美容サロンを運営。</i>
@@ -951,27 +985,27 @@ tbody tr:last-child td.bishin{border-bottom:0}
 
     <div class="qa">
       <div class="qa-item" data-rv="fade">
-        <button class="qa-q" type="button" aria-expanded="false"><span>Q1</span><b>まったくの未経験ですが、ついていけますか？</b></button>
+        <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q1</span><b>まったくの未経験ですが、ついていけますか？</b></button>
         <div class="qa-a"><p>はい、大丈夫です。基礎から丁寧に学べるカリキュラムで、理解できるまで何度でもサポートします。受講生の多くが未経験からのスタートです。</p></div>
       </div>
       <div class="qa-item" data-rv="fade">
-        <button class="qa-q" type="button" aria-expanded="false"><span>Q2</span><b>年齢が気になります。何歳からでも学べますか？</b></button>
+        <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q2</span><b>年齢が気になります。何歳からでも学べますか？</b></button>
         <div class="qa-a"><p>神経エステは身体への負担が少ない技術のため、年齢を重ねても長く続けられます。むしろ経験が価値になる技術です。</p></div>
       </div>
       <div class="qa-item" data-rv="fade">
-        <button class="qa-q" type="button" aria-expanded="false"><span>Q3</span><b>仕事や子育てと両立できますか？</b></button>
+        <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q3</span><b>仕事や子育てと両立できますか？</b></button>
         <div class="qa-a"><p>一人ひとりの生活環境に合わせた学び方をご提案しています。補講や復習制度もあるので、無理のないペースで進められます。</p></div>
       </div>
       <div class="qa-item" data-rv="fade">
-        <button class="qa-q" type="button" aria-expanded="false"><span>Q4</span><b>今のサロンメニューに追加できますか？</b></button>
+        <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q4</span><b>今のサロンメニューに追加できますか？</b></button>
         <div class="qa-a"><p>はい。エステ・リンパ・ネイルなど既存メニューとの相性も良く、差別化メニューとして導入されるサロンオーナー様も多くいらっしゃいます。</p></div>
       </div>
       <div class="qa-item" data-rv="fade">
-        <button class="qa-q" type="button" aria-expanded="false"><span>Q5</span><b>卒業後のサポートはありますか？</b></button>
+        <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q5</span><b>卒業後のサポートはありますか？</b></button>
         <div class="qa-a"><p>あります。卒業後も技術・集客・経営の相談ができる環境をご用意しています。「卒業したら終わり」にはしません。</p></div>
       </div>
       <div class="qa-item" data-rv="fade">
-        <button class="qa-q" type="button" aria-expanded="false"><span>Q6</span><b>受講料や期間を教えてください。</b></button>
+        <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q6</span><b>受講料や期間を教えてください。</b></button>
         <div class="qa-a"><p>コース内容・受講料は説明会（または無料動画）で詳しくご案内しています。まずはお気軽にご登録ください。</p></div>
       </div>
     </div>
@@ -1001,7 +1035,6 @@ tbody tr:last-child td.bishin{border-bottom:0}
 
       <!-- 【差し替え】href に LINE 友だち追加URL -->
       <a class="cta" href="#entry" data-rv="up" data-d="2">
-        <i class="shine" aria-hidden="true"></i>
         <span class="cta-tx"><b>無料個別相談はこちら</b></span>
         <span class="cta-ar"></span>
       </a>
@@ -1013,7 +1046,7 @@ tbody tr:last-child td.bishin{border-bottom:0}
       <p>20年前、小さな自宅サロンで不安を抱えていた私に、今の私はこう伝えたい。<br>
         「大丈夫。正しい技術と、支えてくれる人がいれば、必ず変われる」と。<br>
         今度は、あなたの番です。お会いできることを楽しみにしています。</p>
-      <p class="ps-sign"><span>美顔神経エステスクールBISHIN</span>松田 葉子</p>
+      <p class="ps-sign"><span class="org">美顔神経エステスクールBISHIN</span><span class="who">松田 葉子</span></p>
     </div>
   </div>
 </section>
@@ -1024,7 +1057,7 @@ tbody tr:last-child td.bishin{border-bottom:0}
     <div class="ft-brand">
       <i class="ft-mark" aria-hidden="true"></i>
       <i class="ft-word" aria-hidden="true"></i>
-      <span>美顔神経エステスクール</span>
+      <span class="name">美顔神経エステスクール</span>
     </div>
     <small>© BISHIN. All rights reserved.</small>
   </div>
@@ -1033,7 +1066,7 @@ tbody tr:last-child td.bishin{border-bottom:0}
 <!-- スマホ追従CTA -->
 <div class="bar" id="bar">
   <!-- 【差し替え】href に LINE 友だち追加URL -->
-  <a href="#entry"><span class="tx">無料個別相談はこちら</span><span>LINE</span></a>
+  <a href="#entry"><span class="tx">無料個別相談はこちら</span><span class="cta-ar" aria-hidden="true"></span></a>
 </div>
 
 <script>
