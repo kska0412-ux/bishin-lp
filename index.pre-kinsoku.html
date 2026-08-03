@@ -524,6 +524,44 @@ ul,ol{list-style:none}
 .note{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-45);margin-top:12px;line-height:1.9}
 
 /* ============================================================
+   受講について（サポート期間・料金）
+   ============================================================ */
+.course-box{position:relative;margin-top:clamp(34px,4vw,54px);overflow:hidden;
+  background:linear-gradient(158deg,#2A211A 0%,#181310 55%,#100C0A 100%);
+  border:1px solid rgba(216,188,126,.42);
+  box-shadow:0 28px 54px -34px rgba(48,32,12,.85)}
+.course-box::before{content:"";position:absolute;inset:7px;pointer-events:none;z-index:2;
+  border:1px solid rgba(216,188,126,.2)}
+.course-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));position:relative;z-index:1}
+.course-item{position:relative;text-align:center;
+  padding:clamp(34px,4.2vw,56px) clamp(16px,2.2vw,28px)}
+.course-item+.course-item::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(216,188,126,.5),transparent)}
+.course-item dt{font-family:var(--f-go);font-size:clamp(12px,1.35vw,15px);letter-spacing:.2em;
+  color:var(--signal-lit);line-height:1.6}
+.course-item dd{margin-top:.5em;font-family:var(--f-min);font-weight:400;color:#E9D2A0;
+  font-size:clamp(40px,5.8vw,68px);line-height:1.1;letter-spacing:.02em}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .course-item dd{background:linear-gradient(148deg,#F6E7C0 0%,#DCC086 38%,#B4882F 72%,#F0DDAF 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+}
+.course-item dd i{font-style:normal;font-size:.42em;letter-spacing:.08em;margin-left:.16em}
+.course-rule{display:block;width:56px;height:1px;margin:20px auto 0;transform:scaleX(0);
+  background:linear-gradient(90deg,transparent,var(--signal-lit),transparent);
+  transition:transform .9s cubic-bezier(.16,.84,.36,1) .35s}
+.course-box.in .course-rule{transform:scaleX(1)}
+.course-box.in .course-item:nth-child(2) .course-rule{transition-delay:.55s}
+.course-note{position:relative;z-index:1;text-align:center;
+  padding:0 clamp(18px,2.4vw,30px) clamp(24px,3vw,34px);
+  font-size:clamp(11.5px,1.1vw,12.5px);letter-spacing:.05em;line-height:1.9;
+  color:rgba(242,237,229,.7)}
+@media (max-width:560px){
+  .course-list{grid-template-columns:1fr}
+  .course-item+.course-item::before{left:12%;right:12%;top:0;bottom:auto;width:auto;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(216,188,126,.5),transparent)}
+}
+
+/* ============================================================
    ⑦ Q&A
    ============================================================ */
 .qa{margin-top:clamp(30px,3.6vw,50px);border-top:1px solid var(--ink-14)}
@@ -999,6 +1037,36 @@ ul,ol{list-style:none}
         <p class="note">※ 施術効果には個人差があります。</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     受講について（サポート期間・料金）
+     ============================================================ -->
+<section class="sec" id="course">
+  <div class="wrap" style="padding-left:var(--rail)">
+    <p class="eyebrow" data-rv="fade">Course</p>
+    <h2 class="h2" data-rv>
+      <span class="ln"><i>受講について。</i></span>
+    </h2>
+    <div class="course-box" data-rv="up">
+      <dl class="course-list">
+        <div class="course-item">
+          <dt>サポート期間</dt>
+          <dd>3<i>ヶ月</i><span class="course-rule"></span></dd>
+        </div>
+        <div class="course-item">
+          <dt>料金</dt>
+          <dd>50<i>万円</i><span class="course-rule"></span></dd>
+        </div>
+      </dl>
+      <!-- 【要確認】税込・税別の別と支払い方法を明記するかご指示ください -->
+      <p class="course-note">※ お支払い方法など詳しい内容は、無料個別相談でご案内します。</p>
+    </div>
+    <a class="cta" href="#entry" data-rv="up">
+      <span class="cta-tx"><b>無料個別相談はこちら</b></span>
+      <span class="cta-ar"></span>
+    </a>
   </div>
 </section>
 
