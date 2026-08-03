@@ -420,6 +420,25 @@ thead th.bishin{background:var(--deep);color:var(--signal-lit);border-bottom:1px
   font-family:var(--f-min);font-size:15px;letter-spacing:.2em;padding-top:16px}
 tbody tr:last-child td.bishin{border-bottom:0}
 .tbl-note{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--ink-45);margin-top:14px}
+/* 横スクロールなしで一目で比べられるように、狭い画面は項目ごとのカードへ */
+@media (max-width:720px){
+  .tbl-wrap{overflow:visible}
+  table{display:block;min-width:0;font-size:1em}
+  thead{display:none}
+  tbody{display:block}
+  tbody tr{display:block;border:1px solid var(--ink-14);background:var(--paper-2);
+    margin-bottom:clamp(10px,2vw,16px)}
+  tbody th,tbody td{display:block;width:auto;border:0;padding:0}
+  tbody th{font-family:var(--f-min);font-weight:400;color:var(--ink);letter-spacing:.12em;
+    font-size:15.5px;padding:14px 18px 12px;border-bottom:1px solid var(--ink-14)}
+  tbody td{position:relative;padding:13px 18px 15px;font-size:14.5px;line-height:1.7}
+  tbody td::before{content:attr(data-col);display:block;margin-bottom:5px;
+    font-family:var(--f-mono);font-size:9.5px;letter-spacing:.2em;color:var(--ink-45)}
+  tbody td.bishin{background:var(--deep);color:#F2EDE5;font-weight:400;
+    box-shadow:inset 0 0 0 1px rgba(216,188,126,.28)}
+  tbody td.bishin::before{color:var(--signal-lit)}
+  tbody tr:last-child td.bishin{border-bottom:0}
+}
 
 /* ============================================================
    ⑤ 想い・プロフィール
@@ -830,10 +849,10 @@ tbody tr:last-child td.bishin{border-bottom:0}
           <tr><th scope="col"></th><th scope="col"><span class="nb">一般的な</span><span class="nb">スクール</span></th><th scope="col" class="bishin">BISHIN</th></tr>
         </thead>
         <tbody>
-          <tr><th scope="row"><span class="nb">ゴール</span></th><td><span class="nb">技術習得・</span><span class="nb">資格取得</span></td><td class="bishin"><span class="nb">選ばれ</span><span class="nb">続ける</span><span class="nb">セラピストになること</span></td></tr>
-          <tr><th scope="row"><span class="nb">学べる</span><span class="nb">範囲</span></th><td><span class="nb">技術のみ</span></td><td class="bishin"><span class="nb">技術＋集客・</span><span class="nb">接客・</span><span class="nb">開業・</span><span class="nb">経営</span></td></tr>
-          <tr><th scope="row"><span class="nb">指導形式</span></th><td><span class="nb">大人数・</span><span class="nb">座学中心</span></td><td class="bishin"><span class="nb">少人数制・</span><span class="nb">実践中心</span></td></tr>
-          <tr><th scope="row"><span class="nb">卒業後</span></th><td><span class="nb">サポートなしが</span><span class="nb">多い</span></td><td class="bishin"><span class="nb">卒業後も</span><span class="nb">相談できる</span></td></tr>
+          <tr><th scope="row"><span class="nb">ゴール</span></th><td data-col="一般的なスクール"><span class="nb">技術習得・</span><span class="nb">資格取得</span></td><td class="bishin" data-col="BISHIN"><span class="nb">選ばれ</span><span class="nb">続ける</span><span class="nb">セラピストになること</span></td></tr>
+          <tr><th scope="row"><span class="nb">学べる</span><span class="nb">範囲</span></th><td data-col="一般的なスクール"><span class="nb">技術のみ</span></td><td class="bishin" data-col="BISHIN"><span class="nb">技術＋集客・</span><span class="nb">接客・</span><span class="nb">開業・</span><span class="nb">経営</span></td></tr>
+          <tr><th scope="row"><span class="nb">指導形式</span></th><td data-col="一般的なスクール"><span class="nb">大人数・</span><span class="nb">座学中心</span></td><td class="bishin" data-col="BISHIN"><span class="nb">少人数制・</span><span class="nb">実践中心</span></td></tr>
+          <tr><th scope="row"><span class="nb">卒業後</span></th><td data-col="一般的なスクール"><span class="nb">サポートなしが</span><span class="nb">多い</span></td><td class="bishin" data-col="BISHIN"><span class="nb">卒業後も</span><span class="nb">相談できる</span></td></tr>
         </tbody>
       </table>
       <p class="tbl-note">※ <span class="nb">一般的な</span><span class="nb">スクールの</span><span class="nb">内容は、</span><span class="nb">当校が</span><span class="nb">把握している</span><span class="nb">範囲の</span><span class="nb">一例です。</span></p>
