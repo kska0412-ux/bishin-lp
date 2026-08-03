@@ -260,8 +260,8 @@ ul,ol{list-style:none}
   .js-on .fv-h1[data-rv]{transition-delay:0s}
   .fv-h1 .ln:nth-child(1)>i{transition-delay:0s}
   .fv-h1 .ln:nth-child(2)>i{transition-delay:.13s}
-  .js-on .fv-photo[data-rv]{transition-delay:.45s}
-  .js-on .fv-textcol .cta[data-rv]{transition-delay:.72s;transition-duration:.66s}
+  .js-on .fv-photo[data-rv]{transition-delay:.22s}
+  .js-on .fv-textcol .cta[data-rv]{transition-delay:.42s;transition-duration:.55s}
 }
 
 .fv-h1{font-family:var(--f-min);font-weight:300;letter-spacing:.12em;
@@ -1078,9 +1078,13 @@ tbody tr:last-child td.bishin{border-bottom:0}
     if(loader) loader.classList.add('off');
     doc.classList.add('is-loaded');
   }
-  // ロゴの余韻をもう1秒長く見せてから開幕する
-  window.addEventListener('load',function(){ setTimeout(hideLoader, reduce?1200:1900); });
-  setTimeout(hideLoader,3700); // フェイルセーフ
+  // ロゴの余韻を見せてから開幕する。画像の読み込み完了は待たない（待つと回線次第で数秒遅れる）
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){ setTimeout(hideLoader, reduce?1100:1750); },{once:true});
+  }else{
+    setTimeout(hideLoader, reduce?1100:1750);
+  }
+  setTimeout(hideLoader,3200); // フェイルセーフ
 
   /* ---------- 収集 ---------- */
   var revealables=[].slice.call(document.querySelectorAll('[data-rv],.prob,.reason,.qa-item'));
@@ -1155,21 +1159,21 @@ tbody tr:last-child td.bishin{border-bottom:0}
     var y=window.scrollY;
     var trigger=vh*0.86;
 
-    // リビール（発火したら配列から外す）
-    for(var i=revealables.length-1;i>=0;i--){
-      var el=revealables[i];
-      if(!loaderDone && fvSec && fvSec.contains(el)) continue;
-      if(el.getBoundingClientRect().top < trigger){
-        el.classList.add('in');
-        revealables.splice(i,1);
+    // リビール（幕が開くまではどこも発火させない。発火したら配列から外す）
+    if(loaderDone){
+      for(var i=revealables.length-1;i>=0;i--){
+        var el=revealables[i];
+        if(el.getBoundingClientRect().top < trigger){
+          el.classList.add('in');
+          revealables.splice(i,1);
+        }
       }
-    }
-    for(var j=lines.length-1;j>=0;j--){
-      var ln=lines[j];
-      if(!loaderDone && fvSec && fvSec.contains(ln)) continue;
-      if(ln.getBoundingClientRect().top < trigger){
-        ln.classList.add('in');
-        lines.splice(j,1);
+      for(var j=lines.length-1;j>=0;j--){
+        var ln=lines[j];
+        if(ln.getBoundingClientRect().top < trigger){
+          ln.classList.add('in');
+          lines.splice(j,1);
+        }
       }
     }
 
