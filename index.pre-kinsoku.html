@@ -1006,13 +1006,6 @@ ul,ol{list-style:none}
         </div>
       </li>
       <li class="voice" data-rv="up" data-d="1">
-        <p class="voice-q">「美容業界は初めてで不安でしたが、できるまで何度も見てもらえるので置いていかれることがありませんでした。今は副業として月◯名の施術を担当しています。」</p>
-        <div class="voice-m">
-          <figure class="ph av"></figure>
-          <div><b>元・会社員／未経験スタート</b>30代 / 受講生</div>
-        </div>
-      </li>
-      <li class="voice" data-rv="up" data-d="2">
         <p class="voice-q">「腱鞘炎で引退も考えていましたが、身体に負担の少ないこの技術に出会って『まだ続けられる』と思えました。お客様から『眠りが深くなった』と言われた時は本当に嬉しかったです。」</p>
         <div class="voice-m">
           <figure class="ph av"></figure>
@@ -1061,7 +1054,7 @@ ul,ol{list-style:none}
   <div class="wrap" style="padding-left:var(--rail)">
     <p class="eyebrow" data-rv="fade">Tuition</p>
     <h2 class="h2" data-rv>
-      <span class="ln"><i>受講料。</i></span>
+      <span class="ln"><i>受講料</i></span>
     </h2>
     <div class="course-box" data-rv="up">
       <dl class="course-list">
@@ -1275,6 +1268,27 @@ ul,ol{list-style:none}
   function onResize(){ vh=window.innerHeight; layoutNodes(); }
   window.addEventListener('resize',onResize);
 
+  /* 高速スクロールでフェードが終わる前に画面上端を抜けてしまう要素は、
+     半透明のまま「一瞬だけ見えて消える」。そういう要素は遷移を切って
+     即・最終状態にする（ページ最下部まで一気に送った時のクロージングが該当） */
+  // フェード尺と、「これ以下しか画面に残らないなら薄いままで終わる」という下限。
+  // イージングが前半で効くので、尺の4割あれば不透明度は8割前後まで上がる。
+  var fadeMs=reduce?600:1000, needMs=(reduce?600:1000)*0.4;
+  var lastY=window.scrollY, vel=0;
+  function revealNow(list){
+    var kids=[],i;
+    for(i=0;i<list.length;i++){
+      var el=list[i];
+      kids.push(el);
+      if(el.classList.contains('ln')) kids.push.apply(kids,[].slice.call(el.children));
+      kids.push.apply(kids,[].slice.call(el.querySelectorAll('.ln>i,.hair')));
+    }
+    for(i=0;i<kids.length;i++) kids[i].style.transition='none';
+    for(i=0;i<list.length;i++) list[i].classList.add('in');
+    void document.body.offsetWidth;            // 最終状態を確定させてから遷移を戻す
+    for(i=0;i<kids.length;i++) kids[i].style.transition='';
+  }
+
   function frame(){
     // 慣性
     if(lerpOn && animating){
@@ -1289,22 +1303,33 @@ ul,ol{list-style:none}
     var y=window.scrollY;
     var trigger=vh*0.86;
 
+    // スクロール速度（1フレームの移動量を均したもの）→ px/ms
+    var dy=Math.abs(y-lastY); lastY=y;
+    vel=vel*0.6+dy*0.4;
+    var perMs=vel/16.7;
+
     // リビール（幕が開くまではどこも発火させない。発火したら配列から外す）
     if(loaderDone){
+      var snap=null;
       for(var i=revealables.length-1;i>=0;i--){
-        var el=revealables[i];
-        if(el.getBoundingClientRect().top < trigger){
-          el.classList.add('in');
+        var el=revealables[i], r=el.getBoundingClientRect();
+        if(r.top < trigger){
+          // r.bottom/perMs ＝ 画面上端へ抜けるまでの残り時間。これが短すぎる要素は
+          // 薄いまま流れ去って「一瞬光って消えた」と見えるので、遷移なしで出し切る
+          if(perMs>0.001 && r.bottom/perMs < needMs) (snap=snap||[]).push(el);
+          else el.classList.add('in');
           revealables.splice(i,1);
         }
       }
       for(var j=lines.length-1;j>=0;j--){
-        var ln=lines[j];
-        if(ln.getBoundingClientRect().top < trigger){
-          ln.classList.add('in');
+        var ln=lines[j], lr=ln.getBoundingClientRect();
+        if(lr.top < trigger){
+          if(perMs>0.001 && lr.bottom/perMs < needMs) (snap=snap||[]).push(ln);
+          else ln.classList.add('in');
           lines.splice(j,1);
         }
       }
+      if(snap) revealNow(snap);
     }
 
     // パララックス

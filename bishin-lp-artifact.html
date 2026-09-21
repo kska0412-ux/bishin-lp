@@ -1,4 +1,3 @@
-<title>美顔神経エステスクール BISHIN｜「神経」にアプローチする、次世代の美容技術</title>
 <!-- ============================================================
      美顔神経エステスクール BISHIN / LP
      ※ 【差し替え】コメントの箇所は実素材・実数値に必ず差し替えること
@@ -998,13 +997,6 @@ ul,ol{list-style:none}
         </div>
       </li>
       <li class="voice" data-rv="up" data-d="1">
-        <p class="voice-q"><span class="nb">「美容業界は</span><span class="nb">初めてで</span><span class="nb">不安でしたが、</span><span class="nb">できるまで</span><span class="nb">何度も</span><span class="nb">見てもらえるので</span><span class="nb">置いていかれることがあり</span><span class="nb">ませんでした。</span><span class="nb">今は副業として</span><span class="nb">月◯名の</span><span class="nb">施術を</span><span class="nb">担当しています。」</span></p>
-        <div class="voice-m">
-          <figure class="ph av"></figure>
-          <div><b><span class="nb">元・</span><span class="nb">会社員／未経験スタート</span></b><span class="nb">30代</span> / <span class="nb">受講生</span></div>
-        </div>
-      </li>
-      <li class="voice" data-rv="up" data-d="2">
         <p class="voice-q"><span class="nb">「腱鞘炎で</span><span class="nb">引退も</span><span class="nb">考えていましたが、</span><span class="nb">身体に</span><span class="nb">負担の</span><span class="nb">少ないこの</span><span class="nb">技術に</span><span class="nb">出会って</span><span class="nb">『まだ</span><span class="nb">続けられる』と</span><span class="nb">思えました。</span><span class="nb">お客様から</span><span class="nb">『眠りが</span><span class="nb">深くなった』と</span><span class="nb">言われた</span><span class="nb">時は本当に</span><span class="nb">嬉しかったです。」</span></p>
         <div class="voice-m">
           <figure class="ph av"></figure>
@@ -1053,7 +1045,7 @@ ul,ol{list-style:none}
   <div class="wrap" style="padding-left:var(--rail)">
     <p class="eyebrow" data-rv="fade">Tuition</p>
     <h2 class="h2" data-rv>
-      <span class="ln"><i><span class="nb">受講料。</span></i></span>
+      <span class="ln"><i><span class="nb">受講料</span></i></span>
     </h2>
     <div class="course-box" data-rv="up">
       <dl class="course-list">
@@ -1267,6 +1259,27 @@ ul,ol{list-style:none}
   function onResize(){ vh=window.innerHeight; layoutNodes(); }
   window.addEventListener('resize',onResize);
 
+  /* 高速スクロールでフェードが終わる前に画面上端を抜けてしまう要素は、
+     半透明のまま「一瞬だけ見えて消える」。そういう要素は遷移を切って
+     即・最終状態にする（ページ最下部まで一気に送った時のクロージングが該当） */
+  // フェード尺と、「これ以下しか画面に残らないなら薄いままで終わる」という下限。
+  // イージングが前半で効くので、尺の4割あれば不透明度は8割前後まで上がる。
+  var fadeMs=reduce?600:1000, needMs=(reduce?600:1000)*0.4;
+  var lastY=window.scrollY, vel=0;
+  function revealNow(list){
+    var kids=[],i;
+    for(i=0;i<list.length;i++){
+      var el=list[i];
+      kids.push(el);
+      if(el.classList.contains('ln')) kids.push.apply(kids,[].slice.call(el.children));
+      kids.push.apply(kids,[].slice.call(el.querySelectorAll('.ln>i,.hair')));
+    }
+    for(i=0;i<kids.length;i++) kids[i].style.transition='none';
+    for(i=0;i<list.length;i++) list[i].classList.add('in');
+    void document.body.offsetWidth;            // 最終状態を確定させてから遷移を戻す
+    for(i=0;i<kids.length;i++) kids[i].style.transition='';
+  }
+
   function frame(){
     // 慣性
     if(lerpOn && animating){
@@ -1281,22 +1294,33 @@ ul,ol{list-style:none}
     var y=window.scrollY;
     var trigger=vh*0.86;
 
+    // スクロール速度（1フレームの移動量を均したもの）→ px/ms
+    var dy=Math.abs(y-lastY); lastY=y;
+    vel=vel*0.6+dy*0.4;
+    var perMs=vel/16.7;
+
     // リビール（幕が開くまではどこも発火させない。発火したら配列から外す）
     if(loaderDone){
+      var snap=null;
       for(var i=revealables.length-1;i>=0;i--){
-        var el=revealables[i];
-        if(el.getBoundingClientRect().top < trigger){
-          el.classList.add('in');
+        var el=revealables[i], r=el.getBoundingClientRect();
+        if(r.top < trigger){
+          // r.bottom/perMs ＝ 画面上端へ抜けるまでの残り時間。これが短すぎる要素は
+          // 薄いまま流れ去って「一瞬光って消えた」と見えるので、遷移なしで出し切る
+          if(perMs>0.001 && r.bottom/perMs < needMs) (snap=snap||[]).push(el);
+          else el.classList.add('in');
           revealables.splice(i,1);
         }
       }
       for(var j=lines.length-1;j>=0;j--){
-        var ln=lines[j];
-        if(ln.getBoundingClientRect().top < trigger){
-          ln.classList.add('in');
+        var ln=lines[j], lr=ln.getBoundingClientRect();
+        if(lr.top < trigger){
+          if(perMs>0.001 && lr.bottom/perMs < needMs) (snap=snap||[]).push(ln);
+          else ln.classList.add('in');
           lines.splice(j,1);
         }
       }
+      if(snap) revealNow(snap);
     }
 
     // パララックス
