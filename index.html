@@ -586,6 +586,28 @@ ul,ol{list-style:none}
   padding:0 clamp(18px,2.4vw,30px) clamp(24px,3vw,34px);
   font-size:clamp(11.5px,1.1vw,12.5px);letter-spacing:.05em;line-height:1.9;
   color:rgba(242,237,229,.7)}
+.course-opt{position:relative;z-index:1;margin:0 clamp(18px,2.4vw,30px) clamp(18px,2.4vw,26px);
+  padding:clamp(22px,2.6vw,30px) clamp(16px,2.6vw,34px);text-align:center;
+  border:1px solid rgba(216,188,126,.45);background:rgba(216,188,126,.06)}
+.course-opt-tag{display:inline-block;padding:.35em 1.1em;font-family:var(--f-go);
+  font-size:clamp(11px,1.15vw,13px);letter-spacing:.2em;color:#17130F;background:#D8BC7E}
+.course-opt-h{margin-top:.7em;font-family:var(--f-min);font-weight:400;
+  font-size:clamp(20px,2.3vw,27px);letter-spacing:.1em;color:#EBD6A8}
+.course-opt-list{display:flex;justify-content:center;flex-wrap:wrap;gap:6px clamp(20px,3vw,44px);margin-top:.9em}
+.course-opt-list div{display:flex;align-items:baseline;gap:.8em}
+.course-opt-list dt{font-family:var(--f-go);font-size:clamp(12px,1.25vw,14px);letter-spacing:.16em;
+  color:var(--signal-lit)}
+.course-opt-list dd{font-family:var(--f-min);font-size:clamp(28px,3.2vw,40px);line-height:1.2;
+  letter-spacing:.02em;color:#EBD6A8;white-space:nowrap}
+.course-opt-list dd i{font-style:normal;font-size:.45em;letter-spacing:.06em;margin-left:.14em}
+.course-opt-sum{margin-top:.9em;padding-top:.9em;border-top:1px dashed rgba(216,188,126,.3);
+  font-family:var(--f-go);font-size:clamp(13px,1.35vw,16px);letter-spacing:.06em;line-height:1.9;
+  color:rgba(242,237,229,.86)}
+.course-opt-sum b{font-family:var(--f-min);font-weight:400;color:#EBD6A8;font-size:1.5em;margin:0 .12em}
+@media (max-width:560px){
+  .course-opt-list{flex-direction:column;align-items:center;gap:14px}
+  .course-opt-list div{flex-direction:column;align-items:center;gap:.2em}
+}
 @media (max-width:860px){
   .course-list{grid-template-columns:1fr}
   .course-item+.course-item::before{left:12%;right:12%;top:0;bottom:auto;width:auto;height:1px;
@@ -1089,10 +1111,21 @@ ul,ol{list-style:none}
         <dt><span class="nb">役務提供期間</span></dt>
         <dd><span class="nb">受講期間3ヶ月</span> ＋ <span class="nb">卒業後サポート3ヶ月</span> ＝ <span class="nb">合計</span><b><span class="nb">6ヶ月</span></b><span class="nb">（半年以内）</span></dd>
       </dl>
+      <div class="course-opt">
+        <span class="course-opt-tag"><span class="nb">0期生限定</span></span>
+        <p class="course-opt-h"><span class="nb">開業サポートを</span><span class="nb">加える場合</span></p>
+        <dl class="course-opt-list">
+          <div><dt><span class="nb">開業サポート</span></dt><dd>3<i><span class="nb">ヶ月</span></i></dd></div>
+          <div><dt><span class="nb">受講料（税込・</span><span class="nb">開業サポート込み）</span></dt><dd>20<i><span class="nb">万円</span></i></dd></div>
+        </dl>
+        <p class="course-opt-sum"><span class="nb">役務提供期間：</span><span class="nb">受講期間3ヶ月</span> ＋ <span class="nb">開業サポート3ヶ月</span> ＝ <span class="nb">合計<b>6ヶ月</b></span></p>
+      </div>
       <p class="course-note">※ <span class="nb">受講料は</span><span class="nb">税込表示です。</span><br>
         ※ <span class="nb">役務（サービス）</span><span class="nb">提供期間は、</span><span class="nb">受講開始日から</span><span class="nb">起算して</span><span class="nb">最長6ヶ月です。</span><span class="nb">内訳は、</span><span class="nb">受講期間3ヶ月と、</span><span class="nb">修了後の</span><span class="nb">サポート3ヶ月です。</span><br>
         ※ <span class="nb">卒業後サポートは</span><span class="nb">修了日の</span><span class="nb">翌日から</span><span class="nb">3ヶ月間のご提供となり、</span><span class="nb">期間満了をもって</span><span class="nb">終了します。</span><span class="nb">期間満了後の</span><span class="nb">サポートはありません。</span><br>
-        ※ <span class="nb">お支払い</span><span class="nb">方法など</span><span class="nb">詳しい</span><span class="nb">内容は、</span><span class="nb">無料の</span><span class="nb">個別相談でご案内します。</span></p>
+        ※ <span class="nb">お支払い</span><span class="nb">方法など</span><span class="nb">詳しい</span><span class="nb">内容は、</span><span class="nb">無料の</span><span class="nb">個別相談でご案内します。</span><br>
+        ※ <span class="nb">開業サポートは</span><span class="nb">0期生限定です。</span><span class="nb">20万円（税込）は</span><span class="nb">受講料と</span><span class="nb">開業サポートを</span><span class="nb">合わせた総額です。</span><span class="nb">開業サポートを</span><span class="nb">付けない場合の</span><span class="nb">受講料は</span><span class="nb">11万円（税込）です。</span><br>
+        ※ <span class="nb">開業サポートは</span><span class="nb">修了日の</span><span class="nb">翌日から</span><span class="nb">3ヶ月間のご提供となり、</span><span class="nb">期間満了をもって</span><span class="nb">終了します。</span></p>
     </div>
     <a class="cta" href="https://liff.line.me/2010723291-ZpQ6VLx9?liff_id=2010723291-ZpQ6VLx9&amp;is=yRa7ntfyMz" target="_blank" rel="noopener" data-rv="up">
       <span class="cta-tx"><b><span class="nb">無料個別相談はこちら</span></b></span>
@@ -1134,7 +1167,7 @@ ul,ol{list-style:none}
       </div>
       <div class="qa-item" data-rv="fade">
         <button class="qa-q" type="button" aria-expanded="false"><span class="qn">Q6</span><b><span class="nb">受講料や</span><span class="nb">期間を</span><span class="nb">教えてください。</span></b></button>
-        <div class="qa-a"><p><span class="nb">受講料は</span><b><span class="nb">11万円（税込）</span></b><span class="nb">⁠で、</span><span class="nb">受講期間は</span><b><span class="nb">3ヶ月</span></b><span class="nb">⁠です。</span><span class="nb">加えて</span><span class="nb">修了後に</span><b><span class="nb">3ヶ月間</span></b><span class="nb">⁠の卒業後サポートが</span><span class="nb">付くため、</span><span class="nb">役務（サービス）</span><span class="nb">提供期間は</span><span class="nb">受講開始日から</span><span class="nb">起算して</span><b><span class="nb">最長6ヶ月</span></b><span class="nb">⁠となります。</span><span class="nb">お支払い</span><span class="nb">方法など</span><span class="nb">詳しい</span><span class="nb">内容は、</span><span class="nb">無料の</span><span class="nb">個別相談でご案内します。</span></p></div>
+        <div class="qa-a"><p><span class="nb">受講料は</span><b><span class="nb">11万円（税込）</span></b><span class="nb">⁠で、</span><span class="nb">受講期間は</span><b><span class="nb">3ヶ月</span></b><span class="nb">⁠です。</span><span class="nb">加えて</span><span class="nb">修了後に</span><b><span class="nb">3ヶ月間</span></b><span class="nb">⁠の卒業後サポートが</span><span class="nb">付くため、</span><span class="nb">役務（サービス）</span><span class="nb">提供期間は</span><span class="nb">受講開始日から</span><span class="nb">起算して</span><b><span class="nb">最長6ヶ月</span></b><span class="nb">⁠となります。</span><span class="nb">0期生に限り、</span><span class="nb">開業サポート</span><b><span class="nb">3ヶ月</span></b><span class="nb">⁠を加えることもでき、</span><span class="nb">その場合の</span><span class="nb">受講料は</span><span class="nb">開業サポート込みで</span><b><span class="nb">20万円（税込）</span></b><span class="nb">⁠、</span><span class="nb">役務提供期間は</span><span class="nb">受講期間3ヶ月と</span><span class="nb">開業サポート3ヶ月の</span><b><span class="nb">合計6ヶ月</span></b><span class="nb">⁠です。</span><span class="nb">お支払い</span><span class="nb">方法など</span><span class="nb">詳しい</span><span class="nb">内容は、</span><span class="nb">無料の</span><span class="nb">個別相談でご案内します。</span></p></div>
       </div>
     </div>
   </div>
