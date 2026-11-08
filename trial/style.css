@@ -294,3 +294,9 @@ h1::before{content:"";position:absolute;inset:1cqw -2cqw -2cqw;background:radial
  filter:grayscale(1) sepia(.35);opacity:.18;
  -webkit-mask-image:linear-gradient(to bottom,transparent 22%,#000 34%,#000 58%,transparent 92%);mask-image:linear-gradient(to bottom,transparent 22%,#000 34%,#000 58%,transparent 92%)}
 /* ===== 悩みの深掘り背景（ここまで） ===== */
+
+/* 直接指導：2枚の写真の上に集合写真（2026-11-08 ここから） */
+.teaching-group{margin:0;padding:16px 22px 0}
+.teaching-group img{display:block;width:100%;height:auto;aspect-ratio:6/5;object-fit:cover;object-position:50% 58%;border-radius:2px;outline:1px solid #cdb07a;outline-offset:3px}
+.teaching-group+.teaching-gallery{padding-top:12px}
+/* 直接指導の集合写真（ここまで） */
