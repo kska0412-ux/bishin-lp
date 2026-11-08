@@ -26,8 +26,7 @@
    el.querySelector('.countdown-note').hidden=seconds===0;
   });
   if(seconds===0){
-   document.querySelectorAll('[data-apply]').forEach(a=>{a.removeAttribute('href');a.removeAttribute('target');a.setAttribute('aria-disabled','true');a.querySelector('span:first-child').textContent='お申し込み受付終了';});
-   document.querySelectorAll('.cta-note').forEach(el=>{el.hidden=true;});
+   document.querySelectorAll('[data-apply]').forEach(a=>{a.querySelector('span:first-child').textContent='無料体験会 参加はこちら';});
    if(interval)clearInterval(interval);
   }
  };
